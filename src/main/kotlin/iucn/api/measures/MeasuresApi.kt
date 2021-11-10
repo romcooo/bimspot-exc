@@ -14,7 +14,7 @@ object MeasuresApi {
             private val url = "${this@PerSpecies.url}/region/$regionIdentifier"
 
             fun list(): List<Measure>? {
-                return IUCNApi.getConnection(url).getInputStream().use {
+                return IUCNApi.getConnection(url).getInputStream().bufferedReader().use {
                     defaultJsonObjectMapper.readTree(it)?.let { response ->
                         defaultJsonObjectMapper.treeToValue<MeasuresResponse>(response)?.result ?: emptyList()
                     }

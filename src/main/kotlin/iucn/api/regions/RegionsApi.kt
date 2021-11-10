@@ -10,9 +10,8 @@ object RegionsApi {
     fun list(): List<Region>? {
         val url = "${RegionsApi.url}list/"
 
-        return IUCNApi.getConnection(url).getInputStream().use {
+        return IUCNApi.getConnection(url).getInputStream().bufferedReader().use {
             defaultJsonObjectMapper.readTree(it)?.let { response ->
-                println(response)
                 defaultJsonObjectMapper.treeToValue<ListResponse?>(response)?.results ?: emptyList()
             }
         }

@@ -11,7 +11,7 @@ object SpeciesApi {
         private val url = "${SpeciesApi.url}region/$regionIdentifier/page/0"
 
         fun list(): List<Species>? {
-            return IUCNApi.getConnection(url).getInputStream().use {
+            return IUCNApi.getConnection(url).getInputStream().bufferedReader().use {
                 defaultJsonObjectMapper.readTree(it)?.let { response ->
                     defaultJsonObjectMapper.treeToValue<SpeciesResponse>(response)?.result ?: emptyList()
                 }
